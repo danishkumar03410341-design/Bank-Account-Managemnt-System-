@@ -1,0 +1,43 @@
+pin = 3333 
+balance = 2000
+
+user_pin = int(input("Enter your ATM pin "))
+
+if user_pin == pin : 
+
+    print("===== ATM MENU ====")
+    print("1. Check Balance ")
+    print("2. Deposit Money  ") 
+    print("3. Withdraw Money  ")
+    print("4. Eixt  ")
+
+    choice = int(input("Enter your choice : "))
+
+    if choice == 1: 
+        print("Current Balance : " , balance)
+    elif choice == 2 : 
+        amount = int(input("Enter money to deposit : "))
+        balance += amount 
+        print("Deposit successful")
+        print("Now current balance : " ,balance) 
+
+    elif choice == 3:
+        amount = int(input("Enter amount withdraw : "))
+
+        if amount <= balance : 
+            balance -= amount 
+            print("Please collect your cash")
+            print("Now current balance : " , balance)
+        
+        else : 
+            ("This is more than you avilable balance ")
+    
+    elif choice == 4 : 
+        print("Thans you for ATM use ")
+
+    else : 
+        print("Invalid choice")
+
+else : 
+    print("Wrong pin !")
+    
