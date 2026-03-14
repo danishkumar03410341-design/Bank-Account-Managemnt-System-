@@ -1,43 +1,104 @@
-pin = 3333 
-balance = 2000
+class BankAccount:
 
-user_pin = int(input("Enter your ATM pin "))
+    def __init__(self, name, account_no, balance, pin):
+        self.name = name
+        self.account_no = account_no
+        self.balance = balance
+        self.__pin = pin
 
-if user_pin == pin : 
+    def check_pin(self, entered_pin):
+        return self.__pin == entered_pin
 
-    print("===== ATM MENU ====")
-    print("1. Check Balance ")
-    print("2. Deposit Money  ") 
-    print("3. Withdraw Money  ")
-    print("4. Eixt  ")
+    def change_pin(self, old, new):
+        if self.__pin == old:
+            self.__pin = new
+            print("PIN changed successfully!")
+        else:
+            print("Old PIN is wrong!")
 
-    choice = int(input("Enter your choice : "))
+    def show_balance(self):
+        print("Your balance:", self.balance)
 
-    if choice == 1: 
-        print("Current Balance : " , balance)
-    elif choice == 2 : 
-        amount = int(input("Enter money to deposit : "))
-        balance += amount 
-        print("Deposit successful")
-        print("Now current balance : " ,balance) 
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            print("Amount deposited successfully!")
+            print("Now your balance:", self.balance)
+        else:
+            print("Invalid amount")
 
-    elif choice == 3:
-        amount = int(input("Enter amount withdraw : "))
+    def withdraw(self, amount):
+        if amount > 0 and amount <= self.balance:
+            self.balance -= amount
+            print("Amount withdrawn successfully!")
+            print("Now your balance:", self.balance)
+        else:
+            print("Invalid amount or insufficient balance")
 
-        if amount <= balance : 
-            balance -= amount 
-            print("Please collect your cash")
-            print("Now current balance : " , balance)
-        
-        else : 
-            ("This is more than you avilable balance ")
-    
-    elif choice == 4 : 
-        print("Thans you for ATM use ")
 
-    else : 
-        print("Invalid choice")
+# Sample accounts
+accounts = {
+    1001: BankAccount("Danish", 1001, 5000, 1234),
+    1002: BankAccount("Ali", 1002, 3000, 5678)
+}
 
-else : 
-    print("Wrong pin !")
-    
+user_acc_no = int(input("Enter your account number: "))
+
+if user_acc_no not in accounts:
+    print("Account not found!")
+else:
+
+    current_account = accounts[user_acc_no]
+
+    attempts = 3
+
+    while attempts > 0:
+
+        entered_pin = int(input("Enter your PIN: "))
+
+        if current_account.check_pin(entered_pin):
+
+            while True:
+
+                print("\n========= BANK ACCOUNT =========")
+                print("Welcome", current_account.name)
+
+                print("1. Check Balance")
+                print("2. Deposit Amount")
+                print("3. Withdraw Amount")
+                print("4. Change PIN")
+                print("5. Exit")
+
+                choice = int(input("Enter your choice: "))
+
+                if choice == 1:
+                    current_account.show_balance()
+
+                elif choice == 2:
+                    amount = int(input("Enter amount: "))
+                    current_account.deposit(amount)
+
+                elif choice == 3:
+                    amount = int(input("Enter amount: "))
+                    current_account.withdraw(amount)
+
+                elif choice == 4:
+                    old_pin = int(input("Enter old PIN: "))
+                    new_pin = int(input("Enter new PIN: "))
+                    current_account.change_pin(old_pin, new_pin)
+
+                elif choice == 5:
+                    print("Thanks for using the system!")
+                    break
+
+                else:
+                    print("Invalid choice!")
+
+            break
+
+        else:
+            attempts -= 1
+            print("Wrong PIN!")
+
+    if attempts == 0:
+        print("Account locked due to multiple wrong PIN attempts.")
